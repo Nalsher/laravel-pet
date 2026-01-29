@@ -7,53 +7,52 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Laravel-Pet
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## О проекте
+`laravel-pet` — учебный проект для изучения Laravel 12 с нуля, реализующий базовую функциональность API:  
+- Авторизация и аутентификация пользователей  
+- Создание, получение и обновление задач (Tasks)  
+- Ограничение доступа к задачам по пользователю  
+- Использование Eloquent ORM и ресурсов  
+- Пагинация результатов  
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Проект поднимается полностью в Docker с PHP 8.3 и MySQL 8.0, что позволяет тренироваться с современным стеком Laravel.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Стек
+- **Backend:** PHP 8.3, Laravel 12, Eloquent ORM, Sanctum (API tokens)
+- **База данных:** MySQL 8.0
+- **Контейнеризация:** Docker, Docker Compose
+- **Дополнительно:** Composer, Artisan, TaskResource (API Resources)
 
-## Learning Laravel
+## Архитектура Docker
+| PHP контейнер       | MySQL контейнер     |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## API
+# API Документация - Laravel Pet
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Базовый URL: `http://localhost:8000/api`
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Эндпоинты
 
-### Premium Partners
+| Метод | URL | Headers | Body | Описание | Ответ | Ошибки |
+|-------|-----|---------|------|----------|-------|--------|
+| GET | `/ping` | — | — | Проверка, что сервер работает | `{ "message": "pong" }` | — |
+| POST | `/users` | — | `{ "name": "User Name", "email": "user@example.com", "password": "password123" }` | Регистрация нового пользователя, возвращает токен | `{ "token": "your-api-token" }` | `{ "error": "somethin went wrong while creating user" }` |
+| POST | `/login` | — | `{ "email": "user@example.com", "password": "password123" }` | Авторизация пользователя | `{ "token": "your-api-key" }` | `{ "error": "Invalid-credentials" }` |
+| POST | `/tasks` | `Authorization: Bearer <token>` | `{ "text": "Текст задачи", "img_url": "https://example.com/image.png" }` | Создание новой задачи для пользователя | `123` (ID задачи) | `{ "error": "somethin went wrong while creating task" }` |
+| GET | `/tasks` | `Authorization: Bearer <token>` | — | Получение всех задач пользователя с пагинацией (10 на страницу) | `{ "data": [...], "links": {...}, "meta": {...} }` | `{ "error": "somethin went wrong while getting tasks" }` |
+| GET | `/tasks/{id}` | `Authorization: Bearer <token>` | — | Получение конкретной задачи по ID | `{ "id": 1, "text": "Текст", "img_url": "...", "created_at": "...", "updated_at": "..." }` | `{ "error": "somethin went wrong while getting tasks" }` |
+| PUT / PATCH | `/tasks/{id}` | `Authorization: Bearer <token>` | `{ "text": "Обновленный текст", "img_url": "https://example.com/new.png" }` | Обновление задачи | `{ "id": 1 }` (или пустой ответ) | `{ "error": "somethin went wrong while updating task" }` |
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+### Примечания
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. Все запросы к `/tasks` требуют **авторизации** через `Bearer Token`.
+2. Пагинация `/tasks` по умолчанию возвращает 10 задач на страницу.
+3. Ошибки возвращаются в формате JSON с ключом `error`.
+4. Для обновления задач можно использовать метод PUT или PATCH.
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
