@@ -28,7 +28,6 @@
 ## Архитектура Docker
 | PHP контейнер       | MySQL контейнер     |
 
-## API
 # API Документация - Laravel Pet
 
 Базовый URL: `http://localhost:8000/api`
