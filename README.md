@@ -19,6 +19,30 @@
 
 Проект поднимается полностью в Docker с PHP 8.3 и MySQL 8.0, что позволяет тренироваться с современным стеком Laravel.
 
+# Инструкция по запуску проекта Laravel Pet
+
+## Требования
+
+- Docker (>= 20.10)
+- Docker Compose (>= 2.0)
+- PHP 8.3
+- MySQL 8.0
+
+> Laravel 12 с использованием Sanctum для авторизации и Docker для контейнеризации.
+
+---
+
+## 1. Клонируем проект
+
+```bash
+git clone <URL_репозитория> laravel-pet
+cd laravel-pet
+```
+## 3. Сборка и запуск Docker-контейнеров
+```bash
+docker compose up --build
+```
+
 ## Стек
 - **Backend:** PHP 8.3, Laravel 12, Eloquent ORM, Sanctum (API tokens)
 - **База данных:** MySQL 8.0
