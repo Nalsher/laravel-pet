@@ -38,7 +38,7 @@
 git clone <URL_репозитория> laravel-pet
 cd laravel-pet
 ```
-## 3. Сборка и запуск Docker-контейнеров
+## 2. Сборка и запуск Docker-контейнеров
 ```bash
 docker compose up --build
 ```
